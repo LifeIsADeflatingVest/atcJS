@@ -28,5 +28,5 @@ ATC JS, like every other of [my programs](https://homeforfiction.com/apps) is en
 <a style="margin: 18px auto;width: fit-content" href="https://ko-fi.com/W7W55IO4D" target="_blank"><img height="36" style="border:0px;height:36px;" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" border="0" alt="Buy Me a Coffee at ko-fi.com"></a><p style="font-size:0.9em;width:50%;margin:0 auto;text-align:justify;line-height: 1em;">(If you'd like to see what exactly you're supporting, read my <a href="https://homeforfiction.com/manifesto.php" target="_blank">creative manifesto</a>).</p>
 
 ## Licence
-ATC JS is open source under the AGPL-3.0 license. This is an open-source but somewhat restrictive license, see attached file for details. 
+ATC JS is open-source under the AGPL-3.0 license. This is an open-source but somewhat restrictive license, see attached file for details. 
 Note that ATC JS uses static map images from [OpenStreetMap](https://openstreetmap.org/copyright) that are not covered by the license described here.
