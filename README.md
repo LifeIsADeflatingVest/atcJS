@@ -25,6 +25,8 @@ The easiest way would be to simply copy one of the existing array objects, repla
 ## Support
 ATC JS, like every other of [my programms](https://homeforfiction.com/apps) is entirely free. My motivation was simply to make something I liked; a week project, in a way. If you also liked this (either as a user or a developer) and you'd like to help me, you can buy me a coffee:
 
+<div id="commonDiv" style="opacity: 1; display: flex; text-align: center; padding: 0px; flex-wrap: wrap; margin: 2em auto; width: fit-content; gap: 15px;"><a style="flex-basis:100%" href="https://ko-fi.com/W7W55IO4D" target="_blank"><img height="36" style="border:0px;height:36px;" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" border="0" alt="Buy Me a Coffee at ko-fi.com"></a><p style="font-size:0.9em;width:50%;margin:0 auto;text-align:justify;line-height: 1em;">(If you'd like to see what exactly you're supporting, read my <a href="https://homeforfiction.com/manifesto.php" target="_blank">creative manifesto</a>).</p></div>
+
 [![Buy me a coffee](https://storage.ko-fi.com/cdn/kofi6.png?v=6)](https://ko-fi.com/W7W55IO4D)
 
 ## Licence
