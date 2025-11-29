@@ -20,7 +20,7 @@ You can also read my [blog post](https://blog.homeforfiction.com) describing the
 ## Customizations
 I'm using two Greek airports for this simulation, the Athens International Airport (LGAV) and the Kalamata International Airport (LGKL), but it's very easy to make and use your own map, waypoints, and aircraft. Everything lives in the `data.js` file. Simply find the `theMaps` array of objects (line 20) and add another object there with your own airport data. You basically need a background image and to manually set the position of the runway(s), navaids, and other data. 
 
-The easiest way would be to simply copy one of the existing array objects, replace the background image with your own, and then manually add the proper data. I recommend using [Skyvector](https://skyvector.com/) for finding waypoint approximate positions.
+The easiest way would be to simply copy one of the existing array objects, replace the background image with your own, and then manually add the proper data based on what you see on the image – there are also more instructions inside `data.js`. I recommend using [Skyvector](https://skyvector.com/) for finding waypoint approximate positions.
 
 ## Support
 ATC JS, like every other of [my programs](https://homeforfiction.com/apps) is entirely free. My motivation was simply to make something I liked; a week project, in a way. If you also liked this (either as a user or a developer) and you'd like to help me, you can buy me a coffee:
