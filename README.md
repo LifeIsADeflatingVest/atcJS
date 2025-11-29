@@ -25,7 +25,7 @@ The easiest way would be to simply copy one of the existing array objects, repla
 ## Support
 ATC JS, like every other of [my programms](https://homeforfiction.com/apps) is entirely free. My motivation was simply to make something I liked; a week project, in a way. If you also liked this (either as a user or a developer) and you'd like to help me, you can buy me a coffee:
 
-
+[![Buy me a coffee](https://storage.ko-fi.com/cdn/kofi6.png?v=6)](https://ko-fi.com/W7W55IO4D)
 
 ## Licence
 ATC JS is open source under the AGPL-3.0 license. This is an open-source but somewhat restrictive license, see attached file for details. 
