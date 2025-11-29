@@ -3,6 +3,8 @@
 ## About
 ATC JS, as its name implies, is a free air traffic control simulator made with JavaScript. You must direct landing and departing aircraft keeping them safely separated.
 
+![ATC JS image](img/screenshot1.webp)
+
 ## Features
 - Selectable map (and easily customizable; see "Customizations", below).
 - Save/load progress.
