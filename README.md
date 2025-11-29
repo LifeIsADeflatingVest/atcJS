@@ -10,9 +10,12 @@ ATC JS, as its name implies, is a free air traffic control simulator made with J
 - Select only departures, only arrivals, or both.
 - Toggle emergencies & fuel emergencies on/off.
 - Crosswind toggle on/off (affects go around possibility).
-- 
+- Stats
 
-I'm using two Greek airports for this simulation, the Athens International Airport (LGAV) and the Kalamata International Airport (LGKL), but it's very easy to make and use your own map, waypoints, and aircraft. See the link above for more instructions related to customizations and developing.
+## Customizations
+I'm using two Greek airports for this simulation, the Athens International Airport (LGAV) and the Kalamata International Airport (LGKL), but it's very easy to make and use your own map, waypoints, and aircraft. Everything lives in the `data.js` file. Simply find the `theMaps` array of objects (line 20) and add another object there with your own airport data. You basically need a background image and to manually set the position of the runway(s), navaids, and other data. 
+
+The easiest way would be to simply copy one of the existing array objects, replace the background image with your own, and then manually add the proper data. I recommend using [Skyvector](https://skyvector.com/) for finding waypoint approximate positions.
 
 ## Licence
 ATC JS is open source under the AGPL-3.0 license. This is an open-source but somewhat restrictive license, see attached file for details. 
