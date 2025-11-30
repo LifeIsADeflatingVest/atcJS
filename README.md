@@ -11,7 +11,7 @@ ATC JS, as its name implies, is a free air traffic control simulator made with J
 - Select only departures, only arrivals, or both.
 - Toggle emergencies & fuel emergencies on/off.
 - Crosswind toggle on/off (affects go around possibility).
-- Stats
+- Stats.
 
 ## Where to Play
 ATC JS is entirely free to play on my website, [Home for Fiction](https://homeforfiction.com/apps/#atcJS) – instructions on how to play can be found on the simulator's screen. 
