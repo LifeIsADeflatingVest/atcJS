@@ -15,7 +15,7 @@ ATC JS, as its name implies, is a free air traffic control simulator made with J
 
 ## Where to Play
 ATC JS is entirely free to play on my website, [Home for Fiction](https://homeforfiction.com/apps/#atcJS) – instructions on how to play can be found on the simulator's screen. 
-You can also read my [blog post](https://blog.homeforfiction.com) describing the inspiration and other details behind this ATC simulator.
+You can also read my [blog post](https://blog.homeforfiction.com/2025/11/30/free-air-traffic-control-simulator-javascript/) describing the inspiration and other details behind this ATC simulator.
 
 ## Customizations
 I'm using two Greek airports for this simulation, the Athens International Airport (LGAV) and the Kalamata International Airport (LGKL), but it's very easy to make and use your own map, waypoints, and aircraft. Everything lives in the `data.js` file. Simply find the `theMaps` array of objects (line 20) and add another object there with your own airport data. You basically need a background image and to manually set the position of the runway(s), navaids, and other data. 
