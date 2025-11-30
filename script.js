@@ -556,7 +556,7 @@ bgImage.onload = () => {
                     let inIaf = areaProximity(obj, iaf, 5, true);
                     let atFaf = areaProximity(obj, faf, 3.5, true);
                     let finalApproachSpeedPoint = areaProximity(obj, faf, 6, true);
-                    if (inIaf.length != 0 && Math.abs(obj.hdg - activeRunway.dir) < 50 && obj.approaching === true && obj.landing === false && obj.ias <= 220) {
+                    if (inIaf.length != 0 && angleDistance(obj.hdg, activeRunway.dir) < 50 && obj.approaching === true && obj.landing === false && obj.ias <= 220) {
                         obj.landing = true;
                         obj.commands.cmd_dest = faf;
                         obj.commands.cmd_ias = findInObjArr(limits, "type", obj.type).minIas * 1.3;
