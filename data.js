@@ -15,6 +15,10 @@ let laterEmergencies = ["fuel leak", "hydraulic problem", "pressurization issue"
  * 4.5% to the left. Consult the relevant variables in `script.js`
  * to understand the logic — or simply experiment with numbers
  * and see how they appear on your map.
+ *
+ * Note that the current code in script.js doesn't support
+ * intersecting runways. 
+ *
  */
 
 let theMaps = [
