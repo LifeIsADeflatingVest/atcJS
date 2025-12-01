@@ -29,6 +29,8 @@ let emergencyProbability = 0.1;
 let emergencyCount = 0;
 let fuelEmergencyCount = 0;
 let fromLoad = false;
+let timeInCrosswind = 0;
+let countingCrosswind = false;
 
 let select = document.createElement('select');
 select.id = 'mapChoice';
@@ -79,7 +81,7 @@ $("#exitHelpBtn").click(function(){
 });
 $("#exitSettingsBtn").click(function(){
     visibilitySwap("#settings", "#settingsBtn", "Exit Settings", true);
-});exitSettingsBtn
+});
 $("#inGameExitHelpBtn").click(function(){
    $("#inGameHelp").fadeOut(250);
 });
@@ -205,11 +207,20 @@ $("#gustSpeedRange").on("input change", function() {
 
 function visibilitySwap(el, elBtn, str, forceClose = false) {
     if ($(el).css("display") != "none" || forceClose) {
-        $(el).fadeOut(250);
-        $(elBtn).html("Help");
+        $(el).fadeOut(250, function(){
+        	if ($("#help").css("display") == "none" && $("#settings").css("display") == "none") {
+        		$("#footer").show();
+        	}
+        });
+        let str2 = "Settings";
+        if (str == "Exit Help") {
+        	str2 = "Help";
+        }
+        $(elBtn).html(str2);
         $(elBtn).css("backgroundColor", "blue");
     }
     else {
+    	$("#footer").hide();
         $(el).fadeIn(500);
         $(elBtn).html(str);
         $(elBtn).css("backgroundColor", "darkred");
@@ -570,6 +581,7 @@ bgImage.onload = () => {
                         obj.onShortFinal = true;
                         if (obj.ias <= findInObjArr(limits, "type", obj.type).minIas + 10 && obj.alt == 1000) {
                             if (crosswindActive && getCrosswindComponent() >= findInObjArr(limits, "type", obj.type).xWind) {
+                                countingCrosswind = true;
                                 obj.crosswindGA++;
                                 obj.gaReason = ", crosswind above limit…";
                                 issueCommand(obj.callsign + " ga");
@@ -638,6 +650,15 @@ bgImage.onload = () => {
 
             lastTime = timestamp;
             elapsedTime++;
+            if (countingCrosswind) {
+            	timeInCrosswind++;
+            	if (timeInCrosswind > 600 ) {//force a drop of wind after 10 min of crosswind
+            		theWindSpeed = randInt(1, 8);
+            		gustValue = theWindSpeed * 0.5;
+            		timeInCrosswind = 0;
+            		countingCrosswind = false;
+            	}
+            }
     }
     requestAnimationFrame(draw);
     }
