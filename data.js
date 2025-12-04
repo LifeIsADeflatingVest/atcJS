@@ -17,7 +17,7 @@ let laterEmergencies = ["fuel leak", "hydraulic problem", "pressurization issue"
  * and see how they appear on your map.
  *
  * Note that the current code in script.js doesn't support
- * intersecting runways. 
+ * intersecting (i.e. non-parallel) runways. 
  *
  */
 
