@@ -1,0 +1,360 @@
+* {
+  box-sizing:border-box;
+
+}
+*:focus {
+  outline: none;
+}
+body, html {
+  margin:0;
+  padding:0;
+  width:100vw;
+  height:100vh;
+  background-color:black;
+  color:lightgray;
+  text-align:center;
+  font-family: sans-serif;
+}
+h1, h2, h3, h4 {
+  margin-bottom: 30px;
+  font-family: "WDXL Lubrifont TC", sans-serif;
+  text-shadow:1px 1px black;
+}
+h3 {
+  font-size: 20px;
+  padding: 8px;
+  background-image: url('img/atcJSicon.webp');
+  background-size: contain;
+  background-position: left;
+  background-repeat: no-repeat;
+  background-color: rgba(0,0,255,0.4);
+  border-radius: 8px;
+  width: 50%;
+  margin: 8px auto;
+}
+h4 {
+  font-size: 18px;
+  margin: 8px;
+  width: 50%;
+  text-align: left;
+  margin: 16px auto;
+}
+p, span {
+  font-size:16px;
+  font-family: sans-serif;
+  text-shadow:1px 1px black;
+}
+a {
+  font-size: 15px;
+  color:limegreen;
+}
+a:visited {
+  color:hotpink;
+}
+button, input, select {
+  border:1px solid black;
+  background-color: silver;
+  font-size:14px;
+  cursor:pointer;
+  color: black;
+  font-weight:bold;
+  padding: 8px;
+  border-radius: 6px;
+  transition: scale 0.3s;
+  max-width:100%;
+  font-family: "WDXL Lubrifont TC", sans-serif;
+}
+button:hover {
+  scale: 1.15;
+}
+button:active {
+  transform: translateY(5px);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+figure {
+  margin: 30px auto;
+}
+figcaption {
+  font-style:italic;
+  font-size: 14px;
+}
+.active {
+  background-color: green!important;
+  font-size: 18px;
+}
+.aircraftData {
+  width: fit-content;
+  margin-bottom: 15px !important;
+  text-align:left;
+}
+.bordered {
+  padding:6px;
+  background: darkgreen;
+  border-radius: 8px;
+}
+.code {
+  font-family:monospace;
+  text-align:center!important;
+  background-color:black;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid green;
+  font-size:14px;
+  width: fit-content !important;
+  color:green;
+}
+.flexer {
+  display:flex;
+  flex-wrap:wrap;
+}
+.gameBtn {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 16px;
+  border: 1px solid;
+  font-size: 14px;
+}
+.departing {
+  background-color: blue;
+}
+.arriving {
+  background-color: saddlebrown;
+}
+#intro{
+  z-index: 5;
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+}
+#intro p {
+  width: 50%;
+  text-align: left;
+  margin: 16px auto;
+  line-height:20px;
+}
+
+#intro img {
+  max-width:100%;
+  border-radius: 18px;
+  border: 1px solid;
+}
+#inGameHelp, #statScreen {
+  z-index: 6;
+  position: fixed;
+  overflow: auto;
+  height:50vh;
+  left: 0;
+  top: 0;
+  background: midnightblue;
+  border-radius: 12px;
+  border: 1px solid silver;
+  display:none;
+  padding: 4px;
+  width:20vw;
+}
+#inGameHelp p, #statScreen p {
+  margin:0;
+  font-size: 14px;
+  width:fit-content;
+}
+#inGameHelp h3, #statScreen h3 {
+  width:100%;
+}
+#inGameHelp h4, #statScreen h4 {
+  width:fit-content;
+  margin: 16px 0;
+  font-size:16px;
+}
+#help, #settings {
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid blue;
+  border-radius: 8px;
+  background-color: rgba(0,0,255,0.3);
+  padding: 8px;
+  display:none;
+}
+#help ul h4 {
+  margin-top: 40px;
+  border-top: 1px solid green;
+  padding: 12px 0;
+}
+#buttons {
+  margin-top: 30px;
+}
+#buttons button, #exitHelpBtn, #settings button, #inGameExitHelpBtn, #statExitBtn {
+  background-color: blue;
+  color: ghostwhite;
+  padding: 8px 14px;
+  min-width: 120px;
+  margin: 0 20px;
+}
+#exitHelpBtn, #exitSettingsBtn, #inGameExitHelpBtn, #statExitBtn {
+  background-color:darkred!important;
+}
+#container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+#radar {
+  border:1px solid midnightblue; 	
+  width: 80%;
+  height: 100%;
+  position: relative;
+  background-position: center center;
+  background-repeat:no-repeat;
+  background-size: cover;
+}
+#radar canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#controls {
+  border:1px solid darkgreen;	
+  width:20%;
+  height: 100%
+}
+#controls div {
+  width:100%;
+  overflow: auto;
+}
+#wind {
+  height: 8%;
+  background-color:darkslategray;
+}
+#wind p {
+  font-size:14px;
+}
+#strips {
+  height: 80%;
+  transition: height 0.3s;
+}
+#strips p {
+  padding: 4px 8px;
+  margin: 0;
+  border-bottom: 1px solid black;
+}
+#commands {
+  height: 5%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+#messages {
+  z-index:2;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  padding: 8px;
+  background-color: darkred;
+  opacity:0;
+}
+#settings input {
+  margin:0;
+  padding:0;
+}
+#intro h3 {
+  margin: 40px auto 0;
+}
+#settings .flexer {
+  margin: 8px auto;
+  width: fit-content;
+  gap:12px;
+}
+#footer{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+#footer, #footer a {
+  font-size:12px;
+}
+#emergencyRange, #crossWindRange {
+  opacity:0.3;
+}
+#inGameBtns {
+  justify-content: space-evenly;
+  height:7%;
+  align-content: center;
+  flex-wrap:wrap;
+  transition: height 0.3s;
+}
+#fileLoad, #mapChoice {
+  background-color: blue;
+  color: white;
+  margin: 30px auto;
+  font-size: 18px;
+  border-radius: 8px;
+  display:none;
+}
+#mapChoice {
+  display:block;
+  margin: 8px auto;
+}
+#mobileWarning {
+  display:none;
+}
+#commandBox {
+  max-width:80%;
+}
+#commandButton {
+  max-width:20%;
+}
+#footerCredits {
+  margin-top: 30px!important;
+  font-size: 12px;
+  text-align: center!important;
+  font-style:italic;
+}
+@media only screen and (max-width: 1300px) {
+  #inGameBtns {
+    height: 10%
+  }
+  #wind {
+  	height:13%;
+  }
+  #strips {
+  	height: 60%;
+  }
+  #commands {
+  	height: 17%;
+  }
+  #intro p {
+    width: 70%
+  }
+}
+@media only screen and (max-width: 800px) {
+  #mobileWarning {
+    display:block;
+    position:fixed;
+    z-index:100;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.95);
+    padding: 25px;
+  }
+  #mobileWarning button {
+    color:white;
+    background-color:darkred;
+    font-size:18px;
+  }
+  #mobileWarning p {
+    text-align:justify;
+    font-size:18px;
+  }
+}

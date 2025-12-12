@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATC JS</title>
+    <link rel="icon" type="image/png" href="img/atcJSicon.webp" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=WDXL+Lubrifont+TC&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css?v=4.1">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div id="mobileWarning">
+        <p>The nature of the simulation (requiring a detailed view of the radar) is such that using a mobile phone is <em>not</em> supported.</p>
+        <button onclick="this.parentElement.style.display = 'none';">Try Anyway</button>
+    </div>
+    <div id="inGameHelp">
+        <h3>Command List</h3>
+        <button style="margin-top: 30px" id="inGameExitHelpBtn">Exit Help</button>
+        <h4><span class="bordered">s</span> — Speed</h4>
+        <p class="code">CYP45Q6 s 180</p>
+        <h4><span class="bordered">c</span> — Change Altitude, Heading, or Direct to</h4>
+        <p class="code">CYP45Q6 c 11</p>
+        <p class="code">CYP45Q6 c 180</p>
+        <p class="code">CYP45Q6 c VARIX</p>
+        <h4><span class="bordered">h</span> — Hold at a Waypoint</h4>
+        <p class="code">CYP45Q6 h VARIX</p>
+        <h4><span class="bordered">a</span> — Cleared for the Approach</h4>
+        <p class="code">CYP45Q6 a</p>
+        <h4><span class="bordered">ca</span> — Cancel approach clearance</h4>
+        <p class="code">CYP45Q6 ca</p>
+        <h4><span class="bordered">ga</span> — Go Around</h4>
+        <p class="code">CYP45Q6 ga</p>
+    </div>
+    <div id="statScreen"></div>
+    <div id="intro">
+        <h2>ATC JS: A Free ATC Simulation</h2>
+        <p>ATC JS, as its name implies, is a free air traffic control simulator made with JavaScript. It's also open source – <a href="https://github.com/LifeIsADeflatingVest/atcJS" target="_blank" rel="noopener">here is the code</a>.</p>
+        <p>I use three Greek airports for this simulation: LGAV, LGKL, and LGTS – but it is very easy to make and use your own map, waypoints, and aircraft. See the link above for more instructions related to customizations and developing.</p>
+        <div id="buttons">
+            <button id="helpBtn">Help</button>
+            <button onClick="boot();">Start</button>
+            <button id="settingsBtn">Settings</button>
+            <button id="loadButton" onclick="issueCommand('load');">Load</button>
+        </div>
+        <div id="maps">
+            <p style="text-align:center">Map Selection:</p>
+        </div>
+        <input type="file" id="fileLoad" accept=".txt">
+        <div id="footer"><p id="footerCredits">Programmed by <a href="https://homeforfiction.com" target="_blank">Chris Angelis/Home for Fiction</a>. Static map images from <a href="https://openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.</p></div>
+        <div id="settings">
+            <h3>Difficulty Level</h3>
+            <p>The difficulty level affects the maximum number of aircraft handled simultaneously, the probability of wind change, and how often new aircraft will be spawned. Alternatively, you can set these limits manually. More granularity can be achieved by also modifying the settings further below, such as crosswind influence or emergencies.</p>
+            <div id="difficultyBtnDiv">
+                <button class="active">Easy</button>
+                <button>Medium</button>
+                <button>Hard</button>
+            </div>
+            <div>
+                <h4>Maximum Aircraft: <span id="chosenMax">4</span></h4>
+                <div class="flexer">
+                    <span>3</span>
+                    <input type="range" id="maxAircraftInput" min="3" max="10">
+                    <span>10</span>
+                </div>
+                <h4>Wind Change Probability: <span id="chosenWind">20</span>%</h4>
+                <div class="flexer">
+                    <span>10%</span>
+                    <input type="range" id="windChangeProb" step="10" min="10" max="80">
+                    <span>80%</span>
+                </div>
+                <h4>Aircraft Spawn Rate (every x sec): <span id="chosenRate">20</span></h4>
+                <div class="flexer">
+                    <span>5</span>
+                    <input type="range" id="aircraftSpawnRate" step="5" min="5" max="30">
+                    <span>30</span>
+                </div>
+            </div>
+            <h3>Type of Traffic</h3>
+            <p>The simulation includes both arriving and departing aircraft by default. The setting below can modify that. Because there is a minimum of 40 seconds between departures, opting for only departing aircraft will override the Spawn Rate set above.</p>
+            <div id="trafficBtnDiv">
+                <button class="active">Both</button>
+                <button>Departing Only</button>
+                <button>Arriving Only</button>
+            </div>
+            <h3>Emergencies</h3>
+            <p>By default, aircraft have unlimited fuel and will not face any emergencies. You can change this setting here to possibly face random requests to return to the airport for departing aircraft or fuel emergencies for arriving aircraft that had to wait too long.</p>
+            <div id="emergencyDiv">
+                <button style="background-color:darkred" id="emergBtn">Emergencies Off</button>
+                <div id="emergencyRange">
+                <h4>% of departing aircraft that will declare emergency at some point: <span id="chosenEmerg">10</span>%</h4>
+                    <div class="flexer">
+                        <span>10%</span>
+                        <input type="range" id="emergencyProb" min="1" max="7">
+                        <span>70%</span>
+                    </div>
+                    <p>This is a probability average and, because the timing is randomized, it is possible that an aircraft reaches the exit waypoint before actually declaring an emergency.</p>
+                </div>
+            </div>
+            <p>Departing aircraft declaring an emergency become arriving aircraft and need to be directed for landing, just like ordinary arrivals. Arriving aircraft low on fuel will first declare "Low Fuel" and should receive priority. If they are not put on approach soon enough, they might have to declare fuel emergency. Leaving an aircraft on fuel emergency for too long will eventually remove it from your control (counting it as a strayed aircraft) incurring a penalty.</p>
+            <figure>
+                <img src="img/screenshot3.webp">
+                <figcaption>This aircract has declared an emergency after takeoff and is marked as an arrival, as it needs to return to the airport. Notice the callsign change.</figcaption>
+            </figure>
+            <h3>Crosswind</h3>
+            <p>The default setting is for the wind to only affect the active runway direction. Enabling the setting below, the crosswind component can affect aircraft landing. Each aircraft type has its own crosswind limits and if the crosswind component exceeds these limits, the aircraft might not be able to land (a go around will be initiated on final).</p>
+            <div id="crossWindDiv">
+            <button style="background-color:darkred" id="xWindBtn">Crosswind Inactive</button>
+                <div id="crossWindRange">
+                <h4>Wind gusts (in % of current wind speed): <span id="chosenGust">20</span>%</h4>
+                    <div class="flexer">
+                        <span>20%</span>
+                        <input type="range" id="gustSpeedRange" min="2" max="7">
+                        <span>70%</span>
+                    </div>
+                </div>
+            </div>
+            <p>Persisting crosswinds might result in aircraft requesting a <em>diversion</em>, effectively turning arrivals into departures that need to be vectored to an exit waypoint.</p>
+            <p style="font-style:italic;margin-top:50px">Note that changes are no longer possible after the simulation begins.</p>
+            <div>
+                <button id="exitSettingsBtn">Exit Settings</button>
+            </div>
+        </div>
+        <div id="help">
+            <h3>Interface</h3>
+            <p>The screen is divided into two parts, the radar view on the left, occupying the largest portion of the interface, and the commands section on the right, displaying:<p>
+            <p>— in-game buttons (list of commands, stats, aircraft data, and the save button)</p>
+            <p>— the current wind and active runway(s)</p>
+            <p>— the flight progress strips (i.e. the list of arriving and departing aircraft)<p>
+            <p>— the input box, where you can issue your commands</p>
+            <figure>
+                <img src="img/screenshot1.webp">
+                <figcaption>Simulation screen overview, with several departing and arriving aircraft.</figcaption>
+            </figure>
+            <p><span class="arriving">Orange strips</span> display arriving aircraft, <span class="departing">blue strips</span> departing aircraft.</p>
+            <p>Similar hues are used on the radar itself to differentiate departing from arriving aircraft. Messages also regularly appear at the top of the screen – either as normal readback communication (in green) or in case of some problem (in red), either within the simulation – for instance, a missed approach – or simply if you issue a command that is not understood.</p>
+            <p>Each strip indicates the flight's callsign, the aircraft type, the exit waypoint and its minimum transition altitude (for departing aircraft), as well as <em>issued</em> (not current) speed, altitude and heading. If instead of a heading you issue a command to a waypoint (see below, "Commands"), the name of the waypoint is listed instead. Note that each aircraft type has individual limitations in speed, maximum sector altitude, and climb rate.</p>
+            <p>On the radar screen, you see the various aircraft as they move around the map, their tails' length being proportional to their airspeed. The text next to each aircraft shows the callsign and the <em>current</em> altitude, airspeed, and heading.</p>
+            <h3>Simulation Flow</h3>
+            <p>Aircraft appear regularly, according to the "Max Aircraft" and "Spawn Rate" limits set on the settings page. <span class="arriving">Arriving aircraft</span> must be directed to the <strong>Initial Approach Fix</strong>, IAF, marked with a green circle near the airport. If the following three conditions are met…</p>
+            <p>— they are within a 50° angle to the active runway heading</p>
+            <p>— their speed is 220 knots or less</p>
+            <p>— they are cleared for the approach (see below, "Commands")</p>
+            <p>…the aircraft will independently continue to the <strong>Final Approach Fix</strong>, FAF, marked with an orange circle, attempting to reach the target altitude of 1000 ft and the landing speed individual to each aircraft type.</p>
+            <p>If the aircraft is at 1000ft and near their landing speed upon reaching the vicinity of the FAF, they will successfully be passed to the tower and removed from the simulation. If they are still faster or higher overshooting the FAF, they will execute a missed approach, continuing on runway heading, climbing to 4000ft at a speed of 250kn, being again under your control.</p>
+            <p>As for <span class="departing">departing aircraft</span>, they must be directed toward their exit waypoint, marked on the flight progress strip. The speed is not important, but the altitude must be <em>equal or higher</em> to the exit waypoint transition altitude, as marked on the flight progress strip. Upon reaching the exit waypoint, if the aircraft altitude is at least as high as the transition altitude, the aircraft is successfully passed to the next controller and is removed from the simulation. If the altitude is lower, the aircraft continues on its existing heading.</p>
+            <p>Aircraft must be kept <strong>separated</strong>, either vertically – by at least 1000ft – or laterally. The exact lateral separation required depends on the width of the screen, but it should be about the diameter of the IAF (green circle). Aircraft losing separation become <span style="background-color:darkred">red</span> on the radar. If an aircraft on final for landing loses separation, it will execute a go around.</p>
+            <figure>
+                <img src="img/screenshot2.webp">
+                <figcaption>Loss of separation between aircraft.</figcaption>
+            </figure>
+            <p>The wind may occasionally change in a way that necessitates a change of active runway(s). This will become evident both by the wind & active runway(s) information above the flight progress strips, as well as the change of the IAF & FAF circles on the radar. Runways are not changed when an aircraft is on final, about to land, but they <em>may</em> change even when an approach clearance is issued, in which case the approach must be canceled (see below, "Commands").</p>
+            <p>If an aircraft strays outside the confines of the map, it counts as a loss of positive control and is removed from the simulation.</p>
+            <h3>Commands</h3>
+            <p>Commands to aircraft should follow this syntax (followed by an example):</p>
+            <p class="code">callsign + command (+ command argument)</p>
+            <p class="code">CYP45Q6 s 180</p>
+            <p>The easiest way to enter the callsign would be to click on a flight progress strip, as the simulation copies the callsign into the command input box. However, it is also possible to simply type it manually. To send the command, either click OK or hit Enter.</p>
+            <p>The list of possible commands is as follows (capitalization is irrelevant):</p>
+            <ul>
+                <li>
+                    <h4><span class="bordered">s</span> — Speed</h4>
+                    <p class="code">CYP45Q6 s 180</p>
+                    <p>It must be followed by a 3-digit argument. It's bound by the aircraft's minimum and maximum airspeed.</p>
+                </li>
+                <li>
+                    <h4><span class="bordered">c</span> — Change Altitude, Heading, or Direct to</h4>
+                    <p class="code">CYP45Q6 c 11</p>
+                    <p class="code">CYP45Q6 c 180</p>
+                    <p class="code">CYP45Q6 c VARIX</p>
+                    <p>When followed by a 1- or 2-digit number, this sets the altitude in thousands of feet (e.g. 9 = 9000, 11 = 11000). When followed by a 3-digit number, it sets the heading in degrees. Note that for headings below 100, a leading zero <em>must</em> be used (e.g. 045), otherwise the command will be interpreted as an altitude change.</p>
+                    <p>When this command is followed by a waypoint, it will direct the flight there. If this is a departing flight reaching the exit waypoint, it will be successfully passed to the next controller. If it's either not a departing flight or not an exit point, it will continue on the same heading.</p>
+                    <p>Altitude is bound by the aircraft's maximum altitude (in the context of the simulation).</p>
+                </li>
+                <li>
+                    <h4><span class="bordered">h</span> — Hold at a Waypoint</h4>
+                    <p class="code">CYP45Q6 h VARIX</p>
+                    <p>The aircraft will fly to the designated waypoint and enter a hold around it. Note that holding at a waypoint automatically sets the speed at 200 knots and that issuing a hold command cancels an approach clearance.</p>
+                </li>
+                <li>
+                    <h4><span class="bordered">a</span> — Cleared for the Approach</h4>
+                    <p class="code">CYP45Q6 a</p>
+                    <p>This clears the aircraft for the approach, which is necessary for continuing independently for short final and landing after the IAF. Note that an aircraft can be cleared for the approach <em>only</em> in the vicinity of the IAF (about 3 times the diameter of the marked circle) and that issuing a clear for the approach command cancels any holding. This command takes no arguments.</p>
+                </li>
+                <li>
+                    <h4><span class="bordered">ca</span> — Cancel Approach Clearance</h4>
+                    <p class="code">CYP45Q6 ca</p>
+                    <p>The flight is no longer cleared for the approach, which means that, if it reaches the IAF, it will not turn for final and landing. This command takes no arguments</p>
+                </li>
+                <li>
+                    <h4><span class="bordered">ga</span> — Go Around</h4>
+                    <p class="code">CYP45Q6 ga</p>
+                    <p>Instruct a flight to go around, effectively executing a missed approach. This command takes no arguments and can only be issued to aircraft already on final.</p>
+                </li>
+            </ul>
+            <h3>Tips and Advice</h3>
+            <p>Aircraft have an optimal climb rate which is a factor of their speed. Aircraft types have individual optimal climb rates.</p>
+            <p><span class="departing">Departing aircraft</span> have fewer limitations, as they simply need to be directed to their exit waypoint at an altitude equal or higher to the waypoint transition altitude. The only concern is to keep them separated from other aircraft.</p>
+            <p><span class="arriving">Arriving aircraft</span>, on the other hand, must not only be kept separated but also aim for the IAF at a reasonable altitude and speed, and within the 50° angle. Too high an altitude or speed means they won't have enough time to reach the stabilized approach criteria, resulting in a missed approach.</p>
+            <p>Overall, stacking aircraft on altitude blocks (e.g. 1000, 2000, 3000) is one viable strategy, as they can then hold safely over a particular waypoint. However, this also means they must then either land in sequence (i.e. lowest aircraft first), or separated laterally before descending.</p>
+            <p>You can save your progress during the simulation by pressing the <span class="gameBtn">Save</span> button. This exports the data as a .txt file. <strong>Important:</strong> The save file is only compatible with the screen it was originally saved. If used on a different screen, the data will not be accurate.</p>
+            <h3>Other Information</h3>
+            <p>The nature of the simulation (requiring a detailed view of the radar) is such that using a mobile phone is <em>not</em> supported.</p>
+            <p>Moreover, though aircraft and other data (e.g. waypoint names/locations, minimum speeds, etc.) have been designed taking fleeting looks at real data, this is only true within the confines of this simple simulation. In other words – to state the obvious – treat every single piece of data as non-realistic. This open-source program comes as-is with zero claim to accuracy.</p>
+            <div>
+                <button id="exitHelpBtn">Exit Help</button>
+            </div>
+        </div>
+    </div>
+	<div id="container" class="flexer">
+		<div id="messages"></div>
+		<div id="radar"></div>
+		<div id="controls" class="flexer">
+            <div id="inGameBtns" class="flexer">
+                <p class="gameBtn" onclick="issueCommand('help');">Help</p>
+                <p class="gameBtn" onclick="issueCommand('stats');">Stats</p>
+                <p class="gameBtn" onclick="issueCommand('data');">Data</p>
+                <p class="gameBtn" onclick="issueCommand('save');">Save</p>
+            </div>
+            <div id="wind"></div>
+            <div id="strips"></div>
+            <div id="commands" class="flexer">
+                <input id="commandBox" type="text"><button id="commandButton">OK</button>
+            </div>
+		</div>
+	</div>
+<script defer src="data.js?v=1.9"></script>
+<script defer src="script.js?v=4.0"></script>
+</body>
+</html>
